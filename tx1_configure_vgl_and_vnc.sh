@@ -1,4 +1,4 @@
-# Built VirtualGL, TurboVNC and libjpeg-turbo for 64-bit Linux For Tegra R24.1.
+# Built VirtualGL, TurboVNC and libjpeg-turbo for 64-bit Linux for Jetson Nano / Tegra R32.4.2
 #
 # Based on https://devtalk.nvidia.com/default/topic/828974/jetson-tk1/-howto-install-virtualgl-and-turbovnc-to-jetson-tk1/2
 #
@@ -25,14 +25,19 @@ ask_for_confirmation() {
 # Configure VirtualGL
 # See https://cdn.rawgit.com/VirtualGL/virtualgl/2.5/doc/index.html#hd006
 echo -e "Configuring VirtualGL..." 
-sudo /opt/VirtualGL/bin/vglserver_config
-sudo usermod -a -G vglusers ubuntu
+#sudo /opt/VirtualGL/bin/vglserver_config
+chmod +x /root/Desktop/turbovnc/jtx1_remote_access/tmp/virtualgl/server/vglserver_config
+chmod +x /root/Desktop/turbovnc/jtx1_remote_access/tmp/virtualgl/server/vglgenkey
+sudo /root/Desktop/turbovnc/jtx1_remote_access/tmp/virtualgl/server/./vglserver_config
+#sudo usermod -a -G vglusers ubuntu
 echo -e "\n" 
 
 # Install xfce4
 echo -e "Configuring window manager...\n" 
 ask_for_confirmation "Do you want to install xfce4 window manager? (There might be problems with running default unity on TurboVNC)."
 if answer_is_yes; then
+    cp /root/.vnc/xstartup xstartup.turbovnc
+    chmod -x /root/.vnc/xstartup
     xstartup="$HOME/.vnc/xstartup.turbovnc"
     line="unset DBUS_SESSION_BUS_ADDRESS"
     startline="# enable copy and paste from remote system\n\
@@ -41,7 +46,7 @@ export XKL_XMODMAP_DISABLE=1\n\
 autocutsel -fork\n\
 # start xfce4\n\
 startxfce4 &"
-    sudo apt-get install xfce4 gnome-icon-theme-full xfce4-terminal
+#   sudo apt-get install xfce4 gnome-icon-theme-full xfce4-terminal
     if ! grep -Fq "startxfce4" $xstartup; then
         sed -i "/$line/a $startline" $xstartup
     fi
