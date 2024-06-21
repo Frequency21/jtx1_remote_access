@@ -26,9 +26,9 @@ ask_for_confirmation() {
 # See https://cdn.rawgit.com/VirtualGL/virtualgl/2.5/doc/index.html#hd006
 echo -e "Configuring VirtualGL..." 
 #sudo /opt/VirtualGL/bin/vglserver_config
-chmod +x /root/Desktop/turbovnc/jtx1_remote_access/tmp/virtualgl/server/vglserver_config
-chmod +x /root/Desktop/turbovnc/jtx1_remote_access/tmp/virtualgl/server/vglgenkey
-sudo /root/Desktop/turbovnc/jtx1_remote_access/tmp/virtualgl/server/./vglserver_config
+chmod +x ./tmp/virtualgl/server/vglserver_config
+chmod +x ./tmp/virtualgl/server/vglgenkey
+sudo ./tmp/virtualgl/server/./vglserver_config
 #sudo usermod -a -G vglusers ubuntu
 echo -e "\n" 
 
